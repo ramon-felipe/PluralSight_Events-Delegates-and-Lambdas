@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace EventsDelegatesLambdas
 {
-    // public delegate void WorkPerformedHandler(object? sender, WorkPerformedEventArgs e);
+    public delegate void WorkPerformedHandler();
 
     public class Worker
     {
-        // public event WorkPerformedHandler WorkPerformed;
         public event EventHandler<WorkPerformedEventArgs> WorkPerformed;
         public event EventHandler WorkCompleted;
+        public event WorkPerformedHandler WorkCompletedWithNoArgs;
 
         public Worker(EventHandler<WorkPerformedEventArgs> onWorkPerformed, EventHandler onWorkCompleted)
         {
@@ -20,9 +20,30 @@ namespace EventsDelegatesLambdas
             WorkCompleted = onWorkCompleted;
         }
 
+        public Worker()
+        {
+
+        }
+
         public void DoWork(object? sender, WorkPerformedEventArgs e)
         {
-            for (int i = 0; i <= e.Hours; i++)
+            if (e.Hours < 1)
+                return;
+
+            for (int i = 1; i <= e.Hours; i++)
+            {
+                OnWorkPerformed(sender, e);
+            }
+
+            OnWorkCompletion();
+        }
+
+        public void DoWork2(object? sender, WorkPerformedEventArgs e)
+        {
+            if (e.Hours < 1)
+                return;
+
+            for (int i = 1; i <= e.Hours; i++)
             {
                 OnWorkPerformed(sender, e);
             }
@@ -38,6 +59,17 @@ namespace EventsDelegatesLambdas
         protected virtual void OnWorkCompleted()
         {
             WorkCompleted?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnWorkCompletedWithNoArgs()
+        {
+            WorkCompletedWithNoArgs?.Invoke();
+        }
+
+        private void OnWorkCompletion()
+        {
+            OnWorkCompleted();
+            OnWorkCompletedWithNoArgs();
         }
     }
 }
