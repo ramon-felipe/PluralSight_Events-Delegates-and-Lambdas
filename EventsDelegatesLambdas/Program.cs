@@ -31,16 +31,16 @@ static void WorkCompleted(object? sender, EventArgs e)
 
 var delArgs = new WorkPerformedEventArgs(4, WorkType.Golf); 
 
-void DoWork(WorkPerformedHandler handler)
+void DoWork(EventHandler<WorkPerformedEventArgs> handler)
 {
     handler?.Invoke(null, delArgs);
 }
 
 Console.WriteLine("Hello, World!");
 
-var del1 = new WorkPerformedHandler(WorkPerformed1);
-var del2 = new WorkPerformedHandler(WorkPerformed2);
-var del3 = new WorkPerformedHandler(WorkPerformed3);
+var del1 = new EventHandler<WorkPerformedEventArgs>(WorkPerformed1);
+var del2 = new EventHandler<WorkPerformedEventArgs>(WorkPerformed2);
+var del3 = new EventHandler<WorkPerformedEventArgs>(WorkPerformed3);
 
 var del4 = new EventHandler(WorkCompleted);
 //del1 += del2 + del3;

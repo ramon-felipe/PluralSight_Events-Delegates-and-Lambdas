@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace EventsDelegatesLambdas
 {
-    public delegate void WorkPerformedHandler(object? sender, WorkPerformedEventArgs e);
+    // public delegate void WorkPerformedHandler(object? sender, WorkPerformedEventArgs e);
 
     public class Worker
     {
-        public event WorkPerformedHandler WorkPerformed;
+        // public event WorkPerformedHandler WorkPerformed;
+        public event EventHandler<WorkPerformedEventArgs> WorkPerformed;
         public event EventHandler WorkCompleted;
 
-        public Worker(WorkPerformedHandler onWorkPerformed, EventHandler onWorkCompleted)
+        public Worker(EventHandler<WorkPerformedEventArgs> onWorkPerformed, EventHandler onWorkCompleted)
         {
             WorkPerformed = onWorkPerformed;
             WorkCompleted = onWorkCompleted;
