@@ -10,11 +10,11 @@ namespace EventsDelegatesLambdas
 
     public class Worker
     {
-        public event EventHandler<WorkPerformedEventArgs> WorkPerformed;
-        public event EventHandler WorkCompleted;
-        public event WorkPerformedHandler WorkCompletedWithNoArgs;
+        public event Action<WorkPerformedEventArgs>? WorkPerformed;
+        public event EventHandler? WorkCompleted;
+        public event WorkPerformedHandler? WorkCompletedWithNoArgs;
 
-        public Worker(EventHandler<WorkPerformedEventArgs> onWorkPerformed, EventHandler onWorkCompleted)
+        public Worker(Action<WorkPerformedEventArgs> onWorkPerformed, EventHandler onWorkCompleted)
         {
             WorkPerformed = onWorkPerformed;
             WorkCompleted = onWorkCompleted;
@@ -53,7 +53,7 @@ namespace EventsDelegatesLambdas
 
         protected virtual void OnWorkPerformed(object? sender, WorkPerformedEventArgs e)
         {
-            WorkPerformed?.Invoke(sender, e);
+            WorkPerformed?.Invoke(e);
         }
 
         protected virtual void OnWorkCompleted()
